@@ -18,7 +18,7 @@
 
 1. Clone repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/aquaman0403/trello-api.git
    cd backend
    ```
 
