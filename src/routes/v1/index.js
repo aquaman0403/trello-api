@@ -3,3 +3,21 @@
  * Facebook: https://www.facebook.com/vanduc.hhbg.03
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
+import express from 'express'
+import { StatusCodes } from 'http-status-codes'
+import { boardRoutes } from './boardRoutes.js'
+
+const Router = express.Router()
+
+/* Check APIs v2 status */
+Router.get('/status', (req, res) => {
+  res.status(StatusCodes.OK).json({
+    message: 'Board API is running',
+    status: StatusCodes.OK
+  })
+})
+
+/* Board APIs */
+Router.use('/boards', boardRoutes)
+
+export const APIs_v1 = Router
