@@ -19,7 +19,6 @@
 1. Clone repository:
    ```bash
    git clone https://github.com/aquaman0403/trello-api.git
-   cd backend
    ```
 
 2. Cài đặt các thư viện phụ thuộc:
