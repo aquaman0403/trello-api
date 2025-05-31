@@ -5,6 +5,7 @@
  */
 import { cardModel } from '~/models/cardModel'
 import { columnModel } from '~/models/columnModel'
+import { CloudinaryProvider } from '~/providers/CloudinaryProvider.js'
 
 const createNew = async (reqBody) => {
   try {
@@ -24,15 +25,25 @@ const createNew = async (reqBody) => {
   } catch (error) { throw error }
 }
 
-const update = async (cardId, reqBody) => {
+const update = async (cardId, reqBody, cardCoverFile) => {
   try {
     const updateData = {
       ...reqBody,
       updatedAd: Date.now()
     }
 
-    const updatedCard = await cardModel.update(cardId, updateData)
+    let updatedCard = {}
 
+    if (cardCoverFile) {
+      // Truong hop upload file to cloudinary
+      const uploadResult = await CloudinaryProvider.streamUpload(cardCoverFile.buffer, 'users')
+      updatedCard = await cardModel.update(cardId, {
+        cover: uploadResult.secure_url
+      })
+    } else {
+      // Cac truong hop update chung nhu title, description
+      updatedCard = await cardModel.update(cardId, updateData)
+    }
     return updatedCard
   } catch (error) { throw error }
 }
