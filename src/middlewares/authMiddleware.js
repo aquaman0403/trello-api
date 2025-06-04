@@ -31,7 +31,7 @@ const isAuthorized = async (req, res, next) => {
     // console.log('error authMiddleware: ', error)
     // Nếu accessToken bị hết hạn => cần trả về lỗi GONE - 410 cho phía FE biết để gọi api refreshToken
     if (error?.message?.includes('jwt expired')) {
-      next(new ApiError(StatusCodes.GONE, 'Neet to refresh token!'))
+      next(new ApiError(StatusCodes.GONE, 'Need to refresh token!'))
       return
     }
 

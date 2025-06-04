@@ -42,10 +42,15 @@ const validateBeforeCreate = async (data) => {
   return await BOARD_COLLECTION_SCHEMA.validateAsync(data, { abortEarly: false })
 }
 
-const createNew = async (data) => {
+const createNew = async (userId, data) => {
   try {
     const validData = await validateBeforeCreate(data)
-    const createdBoard = await GET_DB().collection(BOARD_COLLECTION_NAME).insertOne(validData)
+    const newBoardToAdd = {
+      ...validData,
+      ownerIds: [new ObjectId(userId)]
+    }
+
+    const createdBoard = await GET_DB().collection(BOARD_COLLECTION_NAME).insertOne(newBoardToAdd)
     return createdBoard
   } catch (error) { throw new Error(error) }
 }

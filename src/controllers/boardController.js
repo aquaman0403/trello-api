@@ -8,9 +8,10 @@ import { boardService } from '~/services/boardService'
 
 const createNew = async (req, res, next) => {
   try {
+    const userId = req.jwtDecoded._id
 
     // Call the service to create a new board
-    const createdBoard = await boardService.createNew(req.body)
+    const createdBoard = await boardService.createNew(userId, req.body)
 
     res.status(StatusCodes.CREATED).json(createdBoard)
   } catch (error) { next(error) }
