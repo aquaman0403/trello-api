@@ -59,7 +59,7 @@ const findOneById = async (inviationId) => {
 
 const update = async (inviationId, updateData) => {
   try {
-    Object.leys(updateData).forEach(fieldName => {
+    Object.keys(updateData).forEach(fieldName => {
       if (INVALID_UPDATE_FIELDS.includes(fieldName)) {
         delete updateData[fieldName]
       }

@@ -86,7 +86,7 @@ const getDetails = async (id) => {
         foreignField: '_id',
         as: 'owners',
         // pipeline trong lookup la de xu ly mot hoac nhieu luong can thiet
-        // $project ddeer chi dinh vai field khong muon lay bang cach gan cho no gia tri 0
+        // $project de chi dinh vai field khong muon lay bang cach gan cho no gia tri 0
         pipeline: [{ $project: { 'password': 0, 'verifyToken': 0 } }]
       } },
       { $lookup: {
@@ -191,6 +191,18 @@ const getBoards = async (userId, page, itemsPerPage) => {
   } catch (error) { throw new Error(error) }
 }
 
+const pushMemberIds = async (boardId, userId) => {
+  try {
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOneAndUpdate(
+      { _id: new ObjectId(boardId) },
+      { $push: { memberIds: new ObjectId(userId) } },
+      { returnDocument: 'after' }
+    )
+
+    return result
+  } catch (error) { throw new Error(error) }
+}
+
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
@@ -200,5 +212,6 @@ export const boardModel = {
   pushColumnOrderIds,
   update,
   pullColumnOrderIds,
-  getBoards
+  getBoards,
+  pushMemberIds
 }
